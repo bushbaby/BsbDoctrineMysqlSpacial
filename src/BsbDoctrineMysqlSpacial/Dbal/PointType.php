@@ -4,7 +4,7 @@ namespace BsbDoctrineMysqlSpacial\Dbal;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
-use SndSpecialistLocator\Orm\Point;
+use BsbDoctrineMysqlSpacial\Orm\Point;
 /**
  * Mapping type for spatial POINT objects
  */
