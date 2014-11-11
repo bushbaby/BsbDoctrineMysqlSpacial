@@ -1,8 +1,11 @@
 <?php
+
 namespace BsbDoctrineMysqlSpacial\Orm;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use Doctrine\ORM\Query\Lexer;
+use Doctrine\ORM\Query\SqlWalker;
+use Doctrine\ORM\Query\Parser;
 
 /**
  * DQL function for calculating distances between two points
@@ -11,21 +14,35 @@ use Doctrine\ORM\Query\Lexer;
  */
 class Distance extends FunctionNode
 {
+
+    /**
+     * @var mixed parsed value holder
+     */
     private $firstArg;
+
+    /**
+     * @var mixed parsed value holder
+     */
     private $secondArg;
 
-    public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker)
+    /**
+     * {@inheritdoc}
+     */
+    public function getSql(SqlWalker $sqlWalker)
     {
-        //Need to do this hacky linestring length thing because
-        //despite what MySQL manual claims, DISTANCE isn't actually implemented...
-        return 'GLength(LineString(' .
-            $this->firstArg->dispatch($sqlWalker) .
-            ', ' .
-            $this->secondArg->dispatch($sqlWalker) .
-            '))';
+        // Need to do this hacky linestring length thing because despite what MySQL manual claims, DISTANCE
+        // isn't actually implemented...
+        return sprintf(
+            'GLength(LineString(%s, %s))',
+            $this->firstArg->dispatch($sqlWalker),
+            $this->secondArg->dispatch($sqlWalker)
+        );
     }
 
-    public function parse(\Doctrine\ORM\Query\Parser $parser)
+    /**
+     * {@inheritdoc}
+     */
+    public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);

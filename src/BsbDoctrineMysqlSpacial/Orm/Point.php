@@ -2,20 +2,33 @@
 
 namespace BsbDoctrineMysqlSpacial\Orm;
 
+use InvalidArgumentException;
+
 /**
- * Point object for spatial mapping
+ * Point object
  */
 class Point
 {
     /**
+     * Latitude value of Point
+     *
      * @var float $lat
      */
     protected $lat;
+
     /**
+     * Longtitude value of Point
+     *
      * @var float $lng
      */
     protected $lng;
 
+    /**
+     * Constructor of Point
+     *
+     * @param array|string $latitude
+     * @param string|null  $longitude
+     */
     public function __construct($latitude, $longitude = null)
     {
         if (is_array($latitude)) {
@@ -32,6 +45,8 @@ class Point
     }
 
     /**
+     * Set the latitude
+     *
      * @param float $lat
      */
     public function setLat($lat)
@@ -40,6 +55,8 @@ class Point
     }
 
     /**
+     * Get the latitude
+     *
      * @return float
      */
     public function getLat()
@@ -48,6 +65,8 @@ class Point
     }
 
     /**
+     * Set the longtitude
+     *
      * @param float $lng
      */
     public function setLng($lng)
@@ -56,6 +75,8 @@ class Point
     }
 
     /**
+     * Get the longtitude
+     *
      * @return float
      */
     public function getLng()
@@ -63,29 +84,49 @@ class Point
         return $this->lng;
     }
 
-    //Output from this is used with POINT_STR in DQL so must be in specific format
-    public function __toString()
-    {
-        return $this->toString();
-    }
-
-    public function toString()
-    {
-        return sprintf('POINT(%f %f)', $this->lat, $this->lng);
-    }
-
+    /**
+     * Set point values from a string in the form of 'POINT(x.xxx y.yyy)'
+     *
+     * @param string $point
+     * @throws InvalidArgumentException
+     */
     public function fromString($point)
     {
         if (preg_match('/^POINT\((-?\d+\.\d+|-?\d+) (-?\d+\.\d+|-?\d+)\)$/i', $point, $matches)) {
             $this->setLat($matches[1]);
             $this->setLng($matches[2]);
         } else {
-            throw new \InvalidArgumentException("'POINT(x.xxx y.yyy)' expected as argument");
+            throw new InvalidArgumentException("'POINT(x.xxx y.yyy)' expected as argument");
         }
     }
 
+    /**
+     * Return value in string format to be used in DQL
+     *
+     * @return string in form of POINT(%f %f)
+     */
+    public function __toString()
+    {
+        return sprintf('POINT(%f %f)', $this->lat, $this->lng);
+    }
+
+    /**
+     * Return value in string format to be used in DQL
+     *
+     * @return string in form of POINT(%f %f)
+     */
+    public function toString()
+    {
+        return (string) $this;
+    }
+
+    /**
+     * Retrieve point values
+     *
+     * @return array
+     */
     public function toArray()
     {
-        return array('lat'=>$this->lat, 'lng'=>$this->lng);
+        return array('lat' => $this->lat, 'lng' => $this->lng);
     }
 }

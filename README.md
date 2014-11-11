@@ -5,13 +5,15 @@ BsbDoctrineMysqlSpacial is a ZF2 module that provides basic MySQL spatial data f
 
 ## Installation
 
-BsbDoctrineMysqlSpacial installs easely with Composer. To install it into your project, just add the following line into your project composer.json file:
+BsbDoctrineMysqlSpacial installs with Composer. To install it into your project, just add the following line into your project composer.json file:
 
-    "require": {
-        "bushbaby/bsb-doctrine-mysql-spacial": "~1.0"
-    }
-   
-Update your project by runnning composer.phar update. 
+```
+"require": {
+    "bushbaby/bsb-doctrine-mysql-spacial": "~1.0"
+}
+```
+
+Update your project by runnning `composer.phar` update.
 
 Finally enable the module by adding BsbDoctrineMysqlSpacial in your application.config.php file.
 
