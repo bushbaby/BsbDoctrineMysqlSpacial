@@ -17,11 +17,8 @@
         "doctrine/doctrine-orm-module":  "~0.7"
     },
     "autoload": {
-        "psr-0": {
-            "BsbDoctrineMysqlSpacial": "src/"
-        },
-        "classmap": [
-            "./Module.php"
-        ]
+        "psr-4": {
+            "BsbDoctrineMysqlSpacial\\": "src/"
+        }
     }
 }
