@@ -16,6 +16,9 @@
         "zendframework/zend-mvc": "~2.2",
         "doctrine/doctrine-orm-module":  "~0.7"
     },
+    "branch-alias": {
+        "dev-master": "1.0.x-dev"
+    }
     "autoload": {
         "psr-4": {
             "BsbDoctrineMysqlSpacial\\": "src/"
